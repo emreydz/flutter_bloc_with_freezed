@@ -5,15 +5,15 @@ abstract class GameState extends Equatable {
   List<Object> get props => [];
 }
 
-class GameDataInitialState extends GameDataState {}
+class GameDataInitialState extends GameState {}
 
-class GameDataLoadingState extends GameDataState {}
+class GameDataLoadingState extends GameState {}
 
-class GameDataLoadedState extends GameDataState {
+class GameDataLoadedState extends GameState {
   final List<GameModel> apiResult;
-  const GameDataLoadedState({
+  GameDataLoadedState({
     required this.apiResult,
   });
 }
 
-class GameDataErrorState extends GameDataState {}
+class GameDataErrorState extends GameState {}

@@ -13,7 +13,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<GameEvent>((event, emit) async {
       if (event is LoadGameDataEvent) {
         emit(GameDataLoadingState());
-        List<GameModel>? apiresult = await productService.fetchProducts();
+        List<GameModel> apiresult = await productService.fetchProducts();
         if (apiresult == null) {
           emit(GameDataErrorState());
         } else {

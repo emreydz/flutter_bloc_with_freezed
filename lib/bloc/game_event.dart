@@ -5,4 +5,4 @@ abstract class GameEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadGameDataEvent extends GameDataEvent {}
+class LoadGameDataEvent extends GameEvent {}
