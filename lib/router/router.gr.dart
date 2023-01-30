@@ -22,7 +22,17 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: const HomePage(),
       );
-    }
+    },
+    DetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<DetailsRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: DetailsPage(
+          key: args.key,
+          dataModel: args.dataModel,
+        ),
+      );
+    },
   };
 
   @override
@@ -30,7 +40,11 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           HomeRoute.name,
           path: '/',
-        )
+        ),
+        RouteConfig(
+          DetailsRoute.name,
+          path: 'detail',
+        ),
       ];
 }
 
@@ -44,4 +58,38 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+}
+
+/// generated route for
+/// [DetailsPage]
+class DetailsRoute extends PageRouteInfo<DetailsRouteArgs> {
+  DetailsRoute({
+    Key? key,
+    required DataModel dataModel,
+  }) : super(
+          DetailsRoute.name,
+          path: 'detail',
+          args: DetailsRouteArgs(
+            key: key,
+            dataModel: dataModel,
+          ),
+        );
+
+  static const String name = 'DetailsRoute';
+}
+
+class DetailsRouteArgs {
+  const DetailsRouteArgs({
+    this.key,
+    required this.dataModel,
+  });
+
+  final Key? key;
+
+  final DataModel dataModel;
+
+  @override
+  String toString() {
+    return 'DetailsRouteArgs{key: $key, dataModel: $dataModel}';
+  }
 }

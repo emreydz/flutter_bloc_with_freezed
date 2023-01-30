@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_with_freezed/bloc/game_data_bloc.dart';
 import 'package:flutter_bloc_with_freezed/model/data_model.dart';
+import 'package:flutter_bloc_with_freezed/router/router.dart';
+import 'package:flutter_bloc_with_freezed/view/detail_view.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
 class HomePage extends StatelessWidget {
@@ -40,7 +43,9 @@ class HomePage extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              context.router.navigate(DetailsRoute(dataModel: dataModel));
+            },
             child: SizedBox(
               width: double.infinity,
               child: Stack(
