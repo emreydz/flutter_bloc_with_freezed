@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_with_freezed/bloc/game_bloc.dart';
-import 'package:flutter_bloc_with_freezed/model/game_model.dart';
+import 'package:flutter_bloc_with_freezed/bloc/game_data_bloc.dart';
+import 'package:flutter_bloc_with_freezed/model/data_model.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BlocBuilder<GameBloc, GameState>(
-      builder: (context, state) {
-        if (state is GameDataInitialState) {
-          context.read<GameBloc>().add(LoadGameDataEvent());
-          return const CircularProgressIndicator();
-        } else if (state is GameDataLoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is GameDataLoadedState) {
-          return buildGameModel(state.apiResult);
-        } else if (state is GameDataErrorState) {
-          return const Center(
-            child: Text("Uh oh! 😭 Something went wrong!"),
-          );
-        }
-        return Container();
-      },
-    ));
+    return Scaffold(
+      body: BlocBuilder<GameDataBloc, GameDataState>(
+        builder: (context, state) {
+          // context.read<GameDataBloc>().add(GameDataLoading());
+          if (state is GameDataInitialState) {
+            context.read<GameDataBloc>().add(LoadGameDataEvent());
+            return const CircularProgressIndicator();
+          } else if (state is GameDataLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is GameDataLoadedState) {
+            return buildGameModel(state.apiResult);
+          } else if (state is GameDataErrorState) {
+            return const Center(
+              child: Text("Uh oh! 😭 Something went wrong!"),
+            );
+          }
+          return const Text("Error");
+        },
+      ),
+    );
   }
 
-  Widget buildGameModel(List<GameModel> apiResult) {
+  Widget buildGameModel(List<DataModel> apiResult) {
     return ListView.builder(
       padding: EdgeInsets.zero,
       itemCount: apiResult.length,
       itemBuilder: (BuildContext context, int index) {
-        final GameModel dataModel = apiResult[index];
+        final DataModel dataModel = apiResult[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
           child: InkWell(

@@ -1,40 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter_bloc_with_freezed/model/game_model.dart';
+import 'package:flutter_bloc_with_freezed/model/data_model.dart';
 import 'package:http/http.dart' as http;
 
-abstract class IProductService {
-  Future<List<GameModel>> fetchProducts();
-}
-
-class ProductService extends IProductService {
-  @override
-  Future<List<GameModel>> fetchProducts() async {
-    final servicePath = Uri.parse(
-        "https://www.gamerpower.com/api/giveaways?type=$ProductServiceEndPoints.GAME.rawValue");
-    final response = await http.get(servicePath);
-    if (response.statusCode != HttpStatus.ok) {
-      return throw "Error";
+class GamesRepo {
+  Future<List<DataModel>?> getGamesData() async {
+    String url = "https://www.gamerpower.com/api/giveaways";
+    final result = await http.Client().get(Uri.parse(url));
+    if (result.statusCode != 200) {
+      return null;
     } else {
-      Iterable models = jsonDecode(response.body);
-      List<GameModel> dataModels = [];
+      Iterable models = jsonDecode(result.body);
+      List<DataModel> dataModels = [];
       for (var model in models) {
-        GameModel dataModel = GameModel.fromJson(model);
+        DataModel dataModel = DataModel.fromJson(model);
         dataModels.add(dataModel);
       }
       return dataModels;
     }
   }
 }
-
-extension ProductServiceExtension on ProductServiceEndPoints {
-  String get rawValue {
-    switch (this) {
-      case ProductServiceEndPoints.GAME:
-        return 'game';
-    }
-  }
-}
-
-enum ProductServiceEndPoints { GAME }
