@@ -20,8 +20,8 @@ class GamesRepo {
     }
   }
 
-  Future<List<DataModel>?> getPcGamesData() async {
-    String url = "https://www.gamerpower.com/api/giveaways?type=game";
+  Future<List<DataModel>?> getplatformGamesData(String type) async {
+    String url = "https://www.gamerpower.com/api/giveaways?platform=$type";
     final result = await http.get(Uri.parse(url));
     if (result.statusCode != 200) {
       return null;
